@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Ropositorio;
+using EstoqueTIRDEB.Helper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EstoqueTIRDEB
 {
@@ -41,8 +37,16 @@ namespace EstoqueTIRDEB
              options.UseMySql(Configuration.GetConnectionString("EstoqueTIRDEBContext"), builder =>
                 builder.MigrationsAssembly("EstoqueTIRDEB")));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<UsuarioRepositorio>();
+            services.AddScoped<ISessao, Sessao>();
+
+            services.AddSession(o => 
+            {
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +65,7 @@ namespace EstoqueTIRDEB
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Models;
 using EstoqueTIRDEB.Ropositorio;
+using Microsoft.AspNetCore.Http;
+using EstoqueTIRDEB.Helper;
 
 namespace EstoqueTIRDEB.Controllers
 {
@@ -15,17 +17,33 @@ namespace EstoqueTIRDEB.Controllers
     {
         private readonly EstoqueTIRDEBContext _context;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly ISessao _sessao;
 
-        public UsuariosController(EstoqueTIRDEBContext context, IUsuarioRepositorio usuarioRepositorio)
+        public UsuariosController(EstoqueTIRDEBContext context, IUsuarioRepositorio usuarioRepositorio, ISessao sessao)
         {
             _context = context;
             _usuarioRepositorio = usuarioRepositorio;
+            _sessao = sessao;
         }
+
+
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View("Index");
+
+            //Se o usuario estiver logado, redirecionar para a home
+
+            if (_sessao.BuscarSessaoDoUsuario() != null) return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        public IActionResult Sair()
+        {
+            _sessao.RemoverSessaoUsuario();
+
+            return RedirectToAction("Index", "Usuarios");
         }
 
         [HttpPost]
@@ -42,6 +60,7 @@ namespace EstoqueTIRDEB.Controllers
                     {
                         if (usuario.SenhaValida(usuario.Senha))
                         {
+                            _sessao.CriarSessaoDoUsuario(usuario);
                             return RedirectToAction("Index", "Home");
                         }
                         TempData["MensagemErro"] = $"Senha inválida. Por favor tente novamente";
