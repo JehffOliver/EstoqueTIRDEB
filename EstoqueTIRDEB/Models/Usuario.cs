@@ -29,6 +29,11 @@ namespace EstoqueTIRDEB.Models
             NomeUsuario = nomeUsuario;
             Senha = senha;
         }
+
+        public bool SenhaValida(string senha)
+        {
+            return Senha == senha;
+        }
     }
 }
 

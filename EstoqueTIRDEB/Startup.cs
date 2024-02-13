@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EstoqueTIRDEB.Data;
+using EstoqueTIRDEB.Ropositorio;
 
 namespace EstoqueTIRDEB
 {
@@ -39,6 +40,9 @@ namespace EstoqueTIRDEB
             services.AddDbContext<EstoqueTIRDEBContext>(options =>
              options.UseMySql(Configuration.GetConnectionString("EstoqueTIRDEBContext"), builder =>
                 builder.MigrationsAssembly("EstoqueTIRDEB")));
+
+            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddScoped<UsuarioRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

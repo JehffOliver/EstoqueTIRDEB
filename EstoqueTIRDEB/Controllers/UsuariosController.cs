@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Models;
+using EstoqueTIRDEB.Ropositorio;
 
 namespace EstoqueTIRDEB.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly EstoqueTIRDEBContext _context;
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
 
-        public UsuariosController(EstoqueTIRDEBContext context)
+        public UsuariosController(EstoqueTIRDEBContext context, IUsuarioRepositorio usuarioRepositorio)
         {
             _context = context;
+            _usuarioRepositorio = usuarioRepositorio;
         }
-
-
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -34,10 +35,22 @@ namespace EstoqueTIRDEB.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Verificar se as credenciais de login são válidas (por exemplo, consultar o banco de dados)
 
-                    // Redirecionar para a página "Home" se as credenciais forem válidas
-                    return RedirectToAction("Index", "Home");
+                    Usuario u = _usuarioRepositorio.BuscarPorLogin(usuario.NomeUsuario);
+
+                    if (u != null)
+                    {
+                        if (usuario.SenhaValida(usuario.Senha))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        TempData["MensagemErro"] = $"Senha inválida. Por favor tente novamente";
+
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    TempData["MensagemErro"] = $"Usuário e/ou senha inválid(s). Por favor tente novamente";
+
                 }
 
                 // Se as credenciais não forem válidas, retornar a mesma view de login
