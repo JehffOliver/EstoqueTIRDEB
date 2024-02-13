@@ -1,17 +1,14 @@
-﻿@model IEnumerable<EstoqueTIRDEB.Models.Usuario>
-
+﻿@model Usuario
 
 @{
+    ViewData["Title"] = "Home Page";
     Layout = "_Layout_Deslogado";
-    ViewData["Title"] = "Login";
 }
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - RaiaDrogasil</title>
     <style>
         body {
@@ -61,24 +58,19 @@
     </style>
 </head>
 <body>
-    @{
-
-            List<Usuario> U = new List<Usuario>();
 
 
-            foreach (var item in U)
-            {
-            <div class="login-container">
-                <h2>Login - RaiaDrogasil</h2>
-                <form asp-controller="Usuarios" asp-action="Login" method="post">
-                    <input type="text" asp-for="@item.NomeUsuario" class="form-control" id="login" placeholder="Login" required>
-                    @Html.ValidationMessageFor(x => @item.NomeUsuario)
-                    <input type="password" asp-for="@item.Senha" class="form-control" id="senha" placeholder="Senha" required>
-                    @Html.ValidationMessageFor(x => @item.Senha)
-                    <input type="submit" value="Entrar">
-                </form>
-            </div>
-        }
-    }
+
+    <div class="login-container">
+        <h2>Login - RaiaDrogasil</h2>
+        <form asp-controller="Autenticacao" asp-action="Login" method="post">
+            <input type="text" asp-for="NomeUsuario" class="form-control" id="login" placeholder="Login" required>
+            @Html.ValidationMessageFor(x => x.NomeUsuario)
+            <input type="password" asp-for="Senha" class="form-control" id="senha" placeholder="Senha" required>
+            @Html.ValidationMessageFor(x => x.Senha)
+            <input type="submit" value="Entrar">
+        </form>
+    </div>
+
 </body>
 </html>
