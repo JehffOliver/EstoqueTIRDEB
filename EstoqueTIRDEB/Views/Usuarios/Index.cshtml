@@ -59,16 +59,22 @@
 </head>
 <body>
 
-
+   
 
     <div class="login-container">
         <h2>Login - RaiaDrogasil</h2>
-        <form asp-controller="Autenticacao" asp-action="Login" method="post">
-            <input type="text" asp-for="NomeUsuario" class="form-control" id="login" placeholder="Login" required>
-            @Html.ValidationMessageFor(x => x.NomeUsuario)
-            <input type="password" asp-for="Senha" class="form-control" id="senha" placeholder="Senha" required>
-            @Html.ValidationMessageFor(x => x.Senha)
-            <input type="submit" value="Entrar">
+        <form asp-controller="Usuarios" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="login" class="form-inline">Login</label>
+                <input type="text" asp-for="NomeUsuario" class="form-control" id="login" />
+                @Html.ValidationMessageFor(x => x.NomeUsuario)
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-inline">Senha</label>
+                <input type="password" asp-for="Senha" class="form-control" id="senha" />
+                @Html.ValidationMessageFor(x => x.NomeUsuario)
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
         </form>
     </div>
 

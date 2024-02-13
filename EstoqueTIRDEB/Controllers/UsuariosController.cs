@@ -24,7 +24,7 @@ namespace EstoqueTIRDEB.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -34,14 +34,20 @@ namespace EstoqueTIRDEB.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Verificar se as credenciais de login são válidas (por exemplo, consultar o banco de dados)
+
+                    // Redirecionar para a página "Home" se as credenciais forem válidas
                     return RedirectToAction("Index", "Home");
                 }
 
+                // Se as credenciais não forem válidas, retornar a mesma view de login
                 return View("Index");
             }
             catch (Exception erro)
             {
-                throw;
+                // Lidar com exceções, se necessário
+                TempData["MensagemErro"] = $"Ñão foi possível realizar o login, tente novamente, detalhe do erro {erro.Message}";
+                return RedirectToAction("Index");
             }
         }
 
