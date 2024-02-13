@@ -62,7 +62,7 @@ namespace EstoqueTIRDEB
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}/{id?}");
+                    template: "{controller=Usuarios}/{action=Index}/{id?}");
             });
         }
     }

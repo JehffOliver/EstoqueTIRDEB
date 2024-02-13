@@ -19,10 +19,30 @@ namespace EstoqueTIRDEB.Controllers
             _context = context;
         }
 
+
+
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
             return View(await _context.Usuario.ToListAsync());
+        }
+
+        [HttpPost]
+        public IActionResult Login(Usuario usuario)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View("Index");
+            }
+            catch (Exception erro)
+            {
+                throw;
+            }
         }
 
         // GET: Usuarios/Details/5
