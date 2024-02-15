@@ -1,4 +1,5 @@
-﻿using EstoqueTIRDEB.Services;
+﻿using EstoqueTIRDEB.Models;
+using EstoqueTIRDEB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,8 +19,6 @@ namespace EstoqueTIRDEB.Controllers
             _itensService = itensService;
         }
 
-
-
         // GET: ItensController
         public ActionResult Index()
         {
@@ -33,26 +32,18 @@ namespace EstoqueTIRDEB.Controllers
         {
             return View();
         }
-
         // GET: ItensController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ItensController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(Itens itens)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _itensService.Insert(itens);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ItensController/Edit/5

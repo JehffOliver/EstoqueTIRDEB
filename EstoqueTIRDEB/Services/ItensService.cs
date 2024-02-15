@@ -21,5 +21,11 @@ namespace EstoqueTIRDEB.Services
         {
             return _context.Itens.ToList();
         }
+
+        public void Insert(Itens obj)
+        {
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
     }
 }
