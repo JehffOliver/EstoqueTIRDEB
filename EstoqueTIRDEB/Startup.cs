@@ -8,6 +8,7 @@ using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Ropositorio;
 using EstoqueTIRDEB.Helper;
 using Microsoft.AspNetCore.Mvc;
+using EstoqueTIRDEB.Services;
 
 namespace EstoqueTIRDEB
 {
@@ -41,6 +42,7 @@ namespace EstoqueTIRDEB
             services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<UsuarioRepositorio>();
             services.AddScoped<ISessao, Sessao>();
+            services.AddScoped<ItensService>();
 
             services.AddSession(o => 
             {
