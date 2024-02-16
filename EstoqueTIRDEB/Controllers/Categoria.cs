@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 
 namespace EstoqueTIRDEB.Controllers
 {
-    public class ItensController : Controller
+    public class Categoria : Controller
     {
-
         private readonly ItensService _itensService;
         private readonly CategoriaService _categoriaService;
 
-        public ItensController(ItensService itensService, CategoriaService categoriaService)
+        public Categoria(ItensService itensService, CategoriaService categoriaService)
         {
             _itensService = itensService;
             _categoriaService = categoriaService;
         }
+
+
 
         // GET: ItensController
         public ActionResult Index()
