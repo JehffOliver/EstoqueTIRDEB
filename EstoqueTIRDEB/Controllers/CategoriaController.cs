@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace EstoqueTIRDEB.Controllers
 {
-    public class Categoria : Controller
+    public class CategoriaController : Controller
     {
         private readonly ItensService _itensService;
         private readonly CategoriaService _categoriaService;
 
-        public Categoria(ItensService itensService, CategoriaService categoriaService)
+        public CategoriaController(ItensService itensService, CategoriaService categoriaService)
         {
             _itensService = itensService;
             _categoriaService = categoriaService;
@@ -25,7 +25,9 @@ namespace EstoqueTIRDEB.Controllers
         // GET: ItensController
         public ActionResult Index()
         {
-            var list = _itensService.FindAll();
+            List<Categoria> list = new List<Categoria>();
+            list.Add(new Categoria { Id = 1, Nome = "Periféricos" });
+            list.Add(new Categoria { Id = 2, Nome = "Hardware" });
 
             return View(list);
         }
