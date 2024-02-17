@@ -25,11 +25,7 @@ namespace EstoqueTIRDEB.Controllers
         // GET: ItensController
         public ActionResult Index()
         {
-            List<Categoria> list = new List<Categoria>();
-            list.Add(new Categoria { Id = 1, Nome = "Periféricos" });
-            list.Add(new Categoria { Id = 2, Nome = "Hardware" });
-
-            return View(list);
+            return View();
         }
 
         // GET: ItensController/Details/5
