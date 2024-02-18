@@ -28,9 +28,20 @@ namespace EstoqueTIRDEB.Controllers
         }
 
         // GET: ItensController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Adicionar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _itensService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
         }
         // GET: ItensController/Create
         public ActionResult Create()
@@ -49,7 +60,7 @@ namespace EstoqueTIRDEB.Controllers
         // GET: ItensController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(id);
         }
 
         // POST: ItensController/Edit/5
@@ -68,24 +79,29 @@ namespace EstoqueTIRDEB.Controllers
         }
 
         // GET: ItensController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _itensService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
         }
 
         // POST: ItensController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _itensService.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
