@@ -3,6 +3,7 @@ using EstoqueTIRDEB.Models.ViewModels;
 using EstoqueTIRDEB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,13 @@ namespace EstoqueTIRDEB.Controllers
 
         private readonly ItensService _itensService;
         private readonly EstoqueService _estoqueservice;
+        private readonly CategoriaService _categoriaService;
 
-        public ItensController(ItensService itensService)
+        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService)
         {
             _itensService = itensService;
+            _estoqueservice = estoqueService;
+            _categoriaService = categoriaService;
         }
 
         // GET: ItensController
@@ -42,9 +46,37 @@ namespace EstoqueTIRDEB.Controllers
             return View(viewModel);
         }
 
-        // GET: ItensController/Create
-        public ActionResult Create()
+        public IActionResult ListarItensPorCategoria(int categoriaId)
         {
+            var itens = _itensService.ListarPorCategoria(categoriaId);
+            return View(itens);
+        }
+
+        [HttpGet]
+        public IActionResult AdicionarItemAoEstoque()
+        {
+            // Aqui você pode retornar a view de cadastro de item
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AdicionarItemAoEstoque(Itens item, int categoriaId)
+        {
+            _estoqueservice.AdicionarItemAoEstoque(item, categoriaId);
+            return RedirectToAction("Index", "Home"); // Ou outra ação desejada
+        }
+
+        [HttpPost]
+        public IActionResult AdicionarRemover(int itemId)
+        {
+            // Lógica para adicionar e remover o item
+            return RedirectToAction("ListarItensPorCategoria", new { categoriaId = itemId });
+        }
+
+        public IActionResult Create()
+        {
+            var categorias = _categoriaService.GetAll();
+            ViewBag.Categorias = new SelectList(categorias, "Id", "Nome");
             return View();
         }
 
@@ -52,9 +84,16 @@ namespace EstoqueTIRDEB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Itens itens)
         {
-            _itensService.Insert(itens);
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _itensService.Insert(itens);
+                return RedirectToAction(nameof(Index));
+            }
+            var categorias = _categoriaService.GetAll();
+            ViewBag.Categorias = new SelectList(categorias, "Id", "Nome", itens.CategoriaId);
+            return View(itens);
         }
+
 
         // GET: ItensController/Edit/5
         public ActionResult Edit(int id)

@@ -1,77 +1,41 @@
-﻿@model EstoqueTIRDEB.Models.ViewModels.AdicionarItemViewModel
+﻿@model IEnumerable<EstoqueTIRDEB.Models.Itens>
 
 @{
-    ViewData["Title"] = "Detalhes de Quantidade";
+    ViewData["Title"] = "Itens por Categoria";
     Layout = "_Layout";
 }
 
-<h2>Detalhes de Quantidade do Item</h2>
+<h2>Itens por Categoria</h2>
 
-<div>
-    <h4>Informações do Item</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Modelo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Modelo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Especificacoes)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Especificacoes)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataAquisicao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataAquisicao)
-        </dd>
-    </dl>
-</div>
-
-<div>
-    <h4>Quantidade em Estoque</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Quantidade
-        </dt>
-        <dd>
-            Quantidade
-        </dd>
-    </dl>
-</div>
-
-
-<div>
-    <h4>Entradas do Item</h4>
-    <hr />
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Modelo</th>
+            <th>Especificações</th>
+            <th>Data de Aquisição</th>
+            <th>Quantidade</th>
+            <th>Categoria</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>Data de Entrada</th>
-                <th>Quantidade</th>
+                <td>@item.Nome</td>
+                <td>@item.Modelo</td>
+                <td>@item.Especificações</td>
+                <td>@item.DataAquisicao</td>
+                <td>@item.Quantidade</td>
+                <td>@item.Categoria</td>
+                <td>
+                    <form asp-controller="Itens" asp-action="AdicionarRemover" method="post">
+                        <input type="hidden" name="itemId" value="@item.Id" />
+                        <button type="submit" class="btn btn-primary">Remover e Adicionar</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var entrada in Model.EntradasEstoque)
-            {
-                <tr>
-                    <td>@entrada.DataEntrada</td>
-                    <td>@entrada.Quantidade</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<a asp-action="Index">Voltar para a Lista de Itens</a>
+        }
+    </tbody>
+</table>

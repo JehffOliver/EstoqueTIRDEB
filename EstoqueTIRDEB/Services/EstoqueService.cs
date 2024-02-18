@@ -39,5 +39,18 @@ namespace EstoqueTIRDEB.Services
         {
             return _context.EntradaEstoque.Where(es => es.ItemId == itemId).Sum(es => es.Quantidade);
         }
+
+        public void AdicionarItemAoEstoque(Itens item, int categoriaId)
+        {
+            var categoria = _context.Categoria.FirstOrDefault(c => c.Id == categoriaId);
+            if (categoria == null)
+            {
+                throw new InvalidOperationException("Categoria inválida.");
+            }
+
+            item.CategoriaId = categoriaId;
+            _context.Itens.Add(item);
+            _context.SaveChanges();
+        }
     }
 }

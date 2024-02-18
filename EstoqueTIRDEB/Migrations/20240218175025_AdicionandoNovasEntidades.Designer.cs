@@ -3,14 +3,16 @@ using System;
 using EstoqueTIRDEB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EstoqueTIRDEB.Migrations
 {
     [DbContext(typeof(EstoqueTIRDEBContext))]
-    partial class EstoqueTIRDEBContextModelSnapshot : ModelSnapshot
+    [Migration("20240218175025_AdicionandoNovasEntidades")]
+    partial class AdicionandoNovasEntidades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +92,7 @@ namespace EstoqueTIRDEB.Migrations
             modelBuilder.Entity("EstoqueTIRDEB.Models.EntradaEstoque", b =>
                 {
                     b.HasOne("EstoqueTIRDEB.Models.Itens", "Item")
-                        .WithMany()
+                        .WithMany("EntradasEstoque")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

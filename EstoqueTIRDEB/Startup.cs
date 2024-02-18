@@ -44,6 +44,8 @@ namespace EstoqueTIRDEB
             services.AddScoped<ISessao, Sessao>();
             services.AddScoped<ItensService>();
             services.AddScoped<EstoqueService>();
+            services.AddScoped<SeedingService>();
+            services.AddScoped<CategoriaService>();
 
             services.AddSession(o => 
             {
@@ -53,11 +55,12 @@ namespace EstoqueTIRDEB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
