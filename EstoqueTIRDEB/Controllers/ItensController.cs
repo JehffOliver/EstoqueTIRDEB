@@ -1,4 +1,5 @@
 ﻿using EstoqueTIRDEB.Models;
+using EstoqueTIRDEB.Models.ViewModels;
 using EstoqueTIRDEB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,20 +29,27 @@ namespace EstoqueTIRDEB.Controllers
         }
 
         // GET: ItensController/Details/5
-        public ActionResult Adicionar(int? id)
+        public IActionResult Adicionar(int itemId, int quantidade)
         {
-            if (id == null)
+            // Lógica para recuperar informações do item com base no ID do item
+            var item = _itensService.FindById(itemId);
+
+            if (item != null)
             {
-                return NotFound();
+                var model = new AdicionarItemViewModel
+                {
+                    ItemId = item.Id,
+                    Nome = item.Nome,
+                    Modelo = item.Modelo,
+                    Especificacoes = item.Especificações,
+                    DataAquisicao = item.DataAquisicao
+                };
+
+                return View(model);
             }
 
-            var obj = _itensService.FindById(id.Value);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-
-            return View(obj);
+            // Lógica de tratamento caso o item não seja encontrado
+            return RedirectToAction("Index", "Home");
         }
         // GET: ItensController/Create
         public ActionResult Create()
@@ -103,5 +111,7 @@ namespace EstoqueTIRDEB.Controllers
             _itensService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }

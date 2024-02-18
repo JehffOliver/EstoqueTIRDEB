@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
             public double TotalItens(DateTime initial, DateTime final)
             {
-                return EntradaeSaidas.Where(sr => sr.Date >= initial && sr.Date <= final).Sum(sr => sr.Quantidade);
+                return EntradaeSaidas.Where(sr => sr.DataEntrada >= initial && sr.DataSaida <= final).Sum(sr => sr.Quantidade);
             }
 
 

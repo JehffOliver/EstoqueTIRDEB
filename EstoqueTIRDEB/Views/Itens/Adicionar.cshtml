@@ -1,42 +1,39 @@
-﻿@model EstoqueTIRDEB.Models.Itens
+﻿@model EstoqueTIRDEB.Models.ViewModels.AdicionarItemViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Adicionar Item ao Estoque";
+    Layout = "_Layout";
 }
 
-<h2>Details</h2>
+<h2>Detalhes do Item</h2>
+
+<dl class="dl-horizontal">
+    <dt>Nome:</dt>
+    <dd>@Model.Nome</dd>
+
+    <dt>Modelo:</dt>
+    <dd>@Model.Modelo</dd>
+
+    <dt>Especificações:</dt>
+    <dd>@Model.Especificacoes</dd>
+
+    <dt>Data de Aquisição:</dt>
+    <dd>@Model.DataAquisicao</dd>
+</dl>
+
+<h2>Adicionar Item ao Estoque</h2>
+
+<form asp-controller="Itens" asp-action="AdicionarAoEstoque" method="post">
+    <div class="form-group">
+        <input asp-for="ItemId" type="hidden" /> <!-- Campo oculto para o ID do item -->
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantidade">Quantidade:</label>
+        <input asp-for="Quantidade" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+</form>
 
 <div>
-    <h4>Itens</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Modelo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Modelo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Especificações)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Especificações)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataAquisicao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataAquisicao)
-        </dd>
-    </dl>
-</div>
-<div>
-    |
     <a asp-action="Index">Back to List</a>
 </div>

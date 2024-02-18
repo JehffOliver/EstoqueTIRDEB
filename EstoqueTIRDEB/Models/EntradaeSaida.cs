@@ -9,7 +9,8 @@ namespace EstoqueTIRDEB.Models
     {
 
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DataEntrada { get; set; }
+        public DateTime DataSaida { get; set; }
         public int Quantidade { get; set; }
         public Itens Itens { get; set; }
 
@@ -17,10 +18,11 @@ namespace EstoqueTIRDEB.Models
         {
         }
 
-        public EntradaeSaida(int id, DateTime date, int quantidade, Itens itens)
+        public EntradaeSaida(int id, DateTime dataEntrada, DateTime dataSaida, int quantidade, Itens itens)
         {
             Id = id;
-            Date = date;
+            DataEntrada = dataEntrada;
+            DataSaida = dataSaida;
             Quantidade = quantidade;
             Itens = itens;
         }
