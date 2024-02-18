@@ -1,5 +1,6 @@
 ﻿using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace EstoqueTIRDEB.Services
 
         public List<Itens> FindAll()
         {
-            return _context.Itens.ToList();
+            return _context.Itens.Include(i => i.Categoria).ToList();
         }
 
         public Itens FindById(int id)
