@@ -3,19 +3,33 @@ using System;
 using EstoqueTIRDEB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EstoqueTIRDEB.Migrations
 {
     [DbContext(typeof(EstoqueTIRDEBContext))]
-    partial class EstoqueTIRDEBContextModelSnapshot : ModelSnapshot
+    [Migration("20240218001526_adicionandoquantidade")]
+    partial class adicionandoquantidade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("EstoqueTIRDEB.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categoria");
+                });
 
             modelBuilder.Entity("EstoqueTIRDEB.Models.EntradaeSaida", b =>
                 {
@@ -50,7 +64,11 @@ namespace EstoqueTIRDEB.Migrations
 
                     b.Property<string>("Nome");
 
+                    b.Property<int>("QuantidadeDisponivel");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Itens");
                 });
@@ -76,6 +94,14 @@ namespace EstoqueTIRDEB.Migrations
                     b.HasOne("EstoqueTIRDEB.Models.Itens", "Itens")
                         .WithMany("EntradaeSaidas")
                         .HasForeignKey("ItensId");
+                });
+
+            modelBuilder.Entity("EstoqueTIRDEB.Models.Itens", b =>
+                {
+                    b.HasOne("EstoqueTIRDEB.Models.Categoria", "Categoria")
+                        .WithMany("Iten")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

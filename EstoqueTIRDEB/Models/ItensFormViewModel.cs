@@ -8,6 +8,5 @@ namespace EstoqueTIRDEB.Models
     public class ItensFormViewModel
     {
         public Itens Itens { get; set; }
-        public ICollection<Categoria> Categoria { get; set; }
     }
 }

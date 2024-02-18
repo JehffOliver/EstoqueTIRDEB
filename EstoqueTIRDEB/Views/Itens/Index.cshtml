@@ -38,9 +38,6 @@
         <thead>
             <tr class="success">
                 <th>
-                    @Html.DisplayNameFor(model => model.Categoria)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Nome)
                 </th>
                 <th>
@@ -62,9 +59,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Categoria)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>

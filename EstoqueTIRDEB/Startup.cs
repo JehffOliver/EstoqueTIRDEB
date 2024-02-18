@@ -43,7 +43,6 @@ namespace EstoqueTIRDEB
             services.AddScoped<UsuarioRepositorio>();
             services.AddScoped<ISessao, Sessao>();
             services.AddScoped<ItensService>();
-            services.AddScoped<CategoriaService>();
 
             services.AddSession(o => 
             {

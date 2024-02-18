@@ -12,7 +12,6 @@ using System.Threading.Tasks;
             public string Modelo { get; set; }
             public string Especificações { get; set; }
             public DateTime DataAquisicao { get; set; }
-            public Categoria Categoria { get; set; }
             public int CategoriaId { get; set; }
             public ICollection<EntradaeSaida> EntradaeSaidas { get; set; } = new List<EntradaeSaida>();
 

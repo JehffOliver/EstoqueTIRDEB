@@ -13,12 +13,10 @@ namespace EstoqueTIRDEB.Controllers
     {
 
         private readonly ItensService _itensService;
-        private readonly CategoriaService _categoriaService;
 
-        public ItensController(ItensService itensService, CategoriaService categoriaService)
+        public ItensController(ItensService itensService)
         {
             _itensService = itensService;
-            _categoriaService = categoriaService;
         }
 
         // GET: ItensController
@@ -37,9 +35,7 @@ namespace EstoqueTIRDEB.Controllers
         // GET: ItensController/Create
         public ActionResult Create()
         {
-            var categoria = _categoriaService.FindAll();
-            var viewModel = new ItensFormViewModel { Categoria = categoria };
-            return View(viewModel);
+            return View();
         }
 
         [HttpPost]
