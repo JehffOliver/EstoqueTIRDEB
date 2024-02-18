@@ -5,26 +5,26 @@ using System.Threading.Tasks;
 
 namespace EstoqueTIRDEB.Models
 {
-    public class EntradaeSaida
+    public class EntradaEstoque
     {
 
         public int Id { get; set; }
         public DateTime DataEntrada { get; set; }
-        public DateTime DataSaida { get; set; }
         public int Quantidade { get; set; }
-        public Itens Itens { get; set; }
+        public int ItemId { get; set; }
+        public Itens Item { get; set; }
 
-        public EntradaeSaida()
+        public EntradaEstoque()
         {
         }
 
-        public EntradaeSaida(int id, DateTime dataEntrada, DateTime dataSaida, int quantidade, Itens itens)
+        public EntradaEstoque(int id, DateTime dataEntrada, int quantidade, int itemId, Itens item)
         {
             Id = id;
             DataEntrada = dataEntrada;
-            DataSaida = dataSaida;
             Quantidade = quantidade;
-            Itens = itens;
+            ItemId = itemId;
+            Item = item;
         }
     }
 }

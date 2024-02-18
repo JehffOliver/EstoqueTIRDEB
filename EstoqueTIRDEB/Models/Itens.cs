@@ -13,9 +13,9 @@ using System.Threading.Tasks;
             public string Especificações { get; set; }
             public DateTime DataAquisicao { get; set; }
             public int CategoriaId { get; set; }
-            public ICollection<EntradaeSaida> EntradaeSaidas { get; set; } = new List<EntradaeSaida>();
+            public List<EntradaEstoque> EntradasEstoque { get; set; } = new List<EntradaEstoque>();
 
-            public Itens()
+        public Itens()
             {
             }
 
@@ -26,23 +26,6 @@ using System.Threading.Tasks;
                 Modelo = modelo;
                 Especificações = especificações;
             }
-
-
-            public void AddEs(EntradaeSaida es)
-            {
-                EntradaeSaidas.Add(es);
-            }
-
-            public void RemoveEs(EntradaeSaida es)
-            {
-                EntradaeSaidas.Remove(es);
-            }
-
-            public double TotalItens(DateTime initial, DateTime final)
-            {
-                return EntradaeSaidas.Where(sr => sr.DataEntrada >= initial && sr.DataSaida <= final).Sum(sr => sr.Quantidade);
-            }
-
 
         }
     }

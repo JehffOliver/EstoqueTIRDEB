@@ -14,6 +14,7 @@ namespace EstoqueTIRDEB.Controllers
     {
 
         private readonly ItensService _itensService;
+        private readonly EstoqueService _estoqueservice;
 
         public ItensController(ItensService itensService)
         {
@@ -29,28 +30,18 @@ namespace EstoqueTIRDEB.Controllers
         }
 
         // GET: ItensController/Details/5
-        public IActionResult Adicionar(int itemId, int quantidade)
+        public IActionResult DetalhesQuantidade(int itemId)
         {
-            // Lógica para recuperar informações do item com base no ID do item
-            var item = _itensService.FindById(itemId);
+            var viewModel = _estoqueservice.GetDetalhesQuantidadeViewModel(itemId);
 
-            if (item != null)
+            if (viewModel == null)
             {
-                var model = new AdicionarItemViewModel
-                {
-                    ItemId = item.Id,
-                    Nome = item.Nome,
-                    Modelo = item.Modelo,
-                    Especificacoes = item.Especificações,
-                    DataAquisicao = item.DataAquisicao
-                };
-
-                return View(model);
+                return RedirectToAction("Index", "Home");
             }
 
-            // Lógica de tratamento caso o item não seja encontrado
-            return RedirectToAction("Index", "Home");
+            return View(viewModel);
         }
+
         // GET: ItensController/Create
         public ActionResult Create()
         {
