@@ -27,7 +27,7 @@
                 <th>Especificações</th>
                 <th>Data de Aquisição</th>
                 <th>Quantidade</th>
-                <th>Categoria</th> <!-- Nova coluna para exibir a categoria -->
+                <th>Categoria</th>
                 <th></th>
             </tr>
         </thead>
@@ -40,9 +40,12 @@
                     <td>@item.Especificações</td>
                     <td>@item.DataAquisicao</td>
                     <td>@item.Quantidade</td>
-                    <td>@item.Categoria.Nome</td> <!-- Exibir o nome da categoria -->
+                    <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td> <!-- Exibir o nome da categoria se existir, senão mostrar uma string vazia -->
                     <td>
-                        <!-- Botões de ação (editar, excluir, etc.) -->
+                        <div class="btn-group">
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </div>
                     </td>
                 </tr>
             }

@@ -28,9 +28,9 @@ namespace EstoqueTIRDEB.Controllers
         // GET: ItensController
         public ActionResult Index()
         {
-            var list = _itensService.FindAll();
+            var itensComCategorias = _itensService.FindAllWithCategoria(); // Método para carregar os itens com suas categorias
 
-            return View(list);
+            return View(itensComCategorias);
         }
 
         // GET: ItensController/Details/5
@@ -95,25 +95,50 @@ namespace EstoqueTIRDEB.Controllers
         }
 
 
-        // GET: ItensController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(id);
+            var item = _itensService.FindById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var categorias = _categoriaService.GetAll(); // Carregar todas as categorias disponíveis
+            ViewBag.Categorias = new SelectList(categorias, "Id", "Nome", item.CategoriaId); // Passar as categorias para a view
+
+            return View(item);
         }
 
         // POST: ItensController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Itens item)
         {
-            try
+            if (id != item.Id)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    _itensService.Update(item);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    // Se ocorrer algum erro ao atualizar, recarrega a lista de categorias e retorna a view com o item
+                    var categorias = _categoriaService.GetAll();
+                    ViewBag.Categorias = new SelectList(categorias, "Id", "Nome", item.CategoriaId);
+                    return View(item);
+                }
             }
+
+            // Se o modelo não for válido, recarrega a lista de categorias e retorna a view com o item
+            var categoriasInvalidas = _categoriaService.GetAll();
+            ViewBag.Categorias = new SelectList(categoriasInvalidas, "Id", "Nome", item.CategoriaId);
+            return View(item);
         }
 
         // GET: ItensController/Delete/5
