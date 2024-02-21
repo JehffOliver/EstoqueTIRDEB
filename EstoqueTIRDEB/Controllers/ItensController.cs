@@ -82,10 +82,13 @@ namespace EstoqueTIRDEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Itens itens)
+        public IActionResult Create(Itens itens, int quantidade)
         {
             if (ModelState.IsValid)
             {
+                // Define a quantidade inicial do item
+                itens.Quantidade = quantidade;
+
                 _itensService.Insert(itens);
                 return RedirectToAction(nameof(Index));
             }
@@ -95,6 +98,7 @@ namespace EstoqueTIRDEB.Controllers
         }
 
 
+        // GET: ItensController/Edit/5
         public ActionResult Edit(int id)
         {
             var item = _itensService.FindById(id);
@@ -112,7 +116,7 @@ namespace EstoqueTIRDEB.Controllers
         // POST: ItensController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Itens item)
+        public ActionResult Edit(int id, Itens item, int quantidade)
         {
             if (id != item.Id)
             {
@@ -123,6 +127,8 @@ namespace EstoqueTIRDEB.Controllers
             {
                 try
                 {
+                    // Atualiza a quantidade do item
+                    item.Quantidade = quantidade;
                     _itensService.Update(item);
                     return RedirectToAction(nameof(Index));
                 }

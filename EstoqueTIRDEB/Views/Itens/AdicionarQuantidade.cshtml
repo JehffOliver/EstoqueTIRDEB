@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EstoqueTIRDEB.Models.Itens>
+
+@{
+    ViewData["Title"] = "Itens por Categoria";
+    Layout = "_Layout";
+}
+
+<h2>Itens por Categoria</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Modelo</th>
+            <th>Especificações</th>
+            <th>Data de Aquisição</th>
+            <th>Quantidade</th>
+            <th>Categoria</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Modelo</td>
+                <td>@item.Especificações</td>
+                <td>@item.DataAquisicao</td>
+                <td>@item.Quantidade</td>
+                <td>@item.Categoria.Nome</td> <!-- Exibir o nome da categoria -->
+                <td>
+                    <form asp-controller="Itens" asp-action="AdicionarQuantidade" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="number" name="quantidade" min="1" value="1" /> <!-- Campo para adicionar quantidade -->
+                        <button type="submit" class="btn btn-primary">Adicionar Quantidade</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
