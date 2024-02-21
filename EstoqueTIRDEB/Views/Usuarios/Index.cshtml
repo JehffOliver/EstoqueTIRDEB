@@ -22,7 +22,6 @@
     <title>Login</title>
     <link rel="stylesheet" href="main.css">
     <style>
-        import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
@@ -118,22 +117,27 @@
                 transform: scale(1.05);
                 background-color: #20B2AA;
             }
+            .h1{
+                
+            }
     </style>
 
 </head>
 <body>
     <div class="page">
         <form asp-controller="Usuarios" asp-action="Login" method="post" class="formLogin">
-            <h1>Login</h1>
-            <p>Digite os seus dados de acesso no campo abaixo.</p>
-            <label for="login" class="form-inline">Login</label>
-            <input type="text" asp-for="NomeUsuario" class="form-control" id="login" placeholder="Digite seu e-mail" autofocus="true" />
-            @Html.ValidationMessageFor(x => x.NomeUsuario)
+            <div style="text-align: center;">
+                <h1><img src="~/Images/RD-logo.jpg" alt="Logo da Empresa" width="200" height="100"></h1>
+            </div>
+                <p>Digite os seus dados de acesso no campo abaixo.</p>
+                <label for="login" class="form-inline">Login</label>
+                <input type="text" asp-for="NomeUsuario" class="form-control" id="login" placeholder="Digite seu Login" autofocus="true" />
+                @Html.ValidationMessageFor(x => x.NomeUsuario)
 
-            <label for="senha" class="form-inline">Senha</label>
-            <input type="password" asp-for="Senha" class="form-control" id="senha" type="password" placeholder="Digite sua Senha" />
-            @Html.ValidationMessageFor(x => x.Senha)
-        <input type="submit" value="Acessar" class="btn" />
+                <label for="senha" class="form-inline">Senha</label>
+                <input type="password" asp-for="Senha" class="form-control" id="senha" type="password" placeholder="Digite sua Senha" />
+                @Html.ValidationMessageFor(x => x.Senha)
+                <input type="submit" value="Acessar" class="btn" />
         </form>
     </div>
 </body>
