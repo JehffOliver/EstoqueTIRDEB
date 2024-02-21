@@ -6,10 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\Home\About.cshtml" />
-    <None Include="Views\Home\Contact.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Privacy.cshtml" />
+    <Content Remove="Views\Home\about.cshtml" />
+    <Content Remove="Views\Home\index.cshtml" />
+    <Content Remove="Views\Home\service.cshtml" />
+    <Content Remove="Views\Home\team.cshtml" />
+    <Content Remove="Views\Home\why.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home2\About.cshtml" />
+    <None Include="Views\Home2\Contact.cshtml" />
+    <None Include="Views\Home2\Index.cshtml" />
+    <None Include="Views\Home2\Privacy.cshtml" />
+    <None Include="Views\Home\about.cshtml" />
+    <None Include="Views\Home\index.cshtml" />
+    <None Include="Views\Home\service.cshtml" />
+    <None Include="Views\Home\team.cshtml" />
+    <None Include="Views\Home\why.cshtml" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
   </ItemGroup>
 
   <ItemGroup>
