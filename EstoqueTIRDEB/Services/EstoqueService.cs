@@ -40,6 +40,11 @@ namespace EstoqueTIRDEB.Services
             return _context.EntradaEstoque.Where(es => es.ItemId == itemId).Sum(es => es.Quantidade);
         }
 
+        internal dynamic GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public void AdicionarItemAoEstoque(Itens item, int categoriaId)
         {
             var categoria = _context.Categoria.FirstOrDefault(c => c.Id == categoriaId);
