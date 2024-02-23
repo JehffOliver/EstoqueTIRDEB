@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Home2\About.cshtml" />
-    <None Include="Views\Home2\Contact.cshtml" />
-    <None Include="Views\Home2\Index.cshtml" />
-    <None Include="Views\Home2\Privacy.cshtml" />
+    <None Include="Views\Dashboard\About.cshtml" />
+    <None Include="Views\Dashboard\Contact.cshtml" />
+    <None Include="Views\Dashboard\Index.cshtml" />
+    <None Include="Views\Dashboard\Privacy.cshtml" />
     <None Include="Views\Home\About.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Contact.cshtml" />
