@@ -1,0 +1,37 @@
+﻿@model IEnumerable<EstoqueTIRDEB.Models.RetiradaEstoque>
+
+@{
+    ViewData["Title"] = "Registros de Retirada de Estoque";
+    Layout = "_Layout";
+}
+
+<h2>Registros de Retirada de Estoque</h2>
+
+@if (!Model.Any())
+{
+    <p>Nenhum registro de retirada de estoque encontrado.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data e Hora</th>
+                <th>Item</th>
+                <th>Quantidade</th>
+                <!-- Adicione outras colunas conforme necessário -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var retirada in Model)
+            {
+                <tr>
+                    <td>@retirada.DataHoraRetirada</td>
+                    <td>@retirada.ItemId</td>
+                    <td>@retirada.QuantidadeRetirada.</td>
+                    <!-- Adicione outras colunas conforme necessário -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}

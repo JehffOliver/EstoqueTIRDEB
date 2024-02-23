@@ -46,6 +46,7 @@ namespace EstoqueTIRDEB
             services.AddScoped<EstoqueService>();
             services.AddScoped<SeedingService>();
             services.AddScoped<CategoriaService>();
+            services.AddScoped<RetiradaEstoqueService>();
 
             services.AddSession(o => 
             {

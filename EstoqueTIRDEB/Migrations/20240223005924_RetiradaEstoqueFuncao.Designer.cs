@@ -3,14 +3,16 @@ using System;
 using EstoqueTIRDEB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EstoqueTIRDEB.Migrations
 {
     [DbContext(typeof(EstoqueTIRDEBContext))]
-    partial class EstoqueTIRDEBContextModelSnapshot : ModelSnapshot
+    [Migration("20240223005924_RetiradaEstoqueFuncao")]
+    partial class RetiradaEstoqueFuncao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

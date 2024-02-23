@@ -1,9 +1,11 @@
-﻿using EstoqueTIRDEB.Models;
+﻿using EstoqueTIRDEB.Data;
+using EstoqueTIRDEB.Models;
 using EstoqueTIRDEB.Models.ViewModels;
 using EstoqueTIRDEB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +19,15 @@ namespace EstoqueTIRDEB.Controllers
         private readonly ItensService _itensService;
         private readonly EstoqueService _estoqueservice;
         private readonly CategoriaService _categoriaService;
+        private readonly EstoqueTIRDEBContext _context;
 
-        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService)
+        // Construtor que aceita as dependências necessárias
+        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context)
         {
             _itensService = itensService;
             _estoqueservice = estoqueService;
             _categoriaService = categoriaService;
+            _context = context;
         }
 
         // GET: ItensController
@@ -173,6 +178,47 @@ namespace EstoqueTIRDEB.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Outros métodos do controller
 
+        // GET: Itens/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _context.Itens.FirstOrDefaultAsync(m => m.Id == id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("RemoverQuantidade")]
+        [Route("Itens/RemoverQuantidade/{id}")]
+        public async Task<IActionResult> RemoverQuantidade(int id, int quantidade)
+        {
+            var item = await _context.Itens.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            if (quantidade <= 0 || quantidade > item.Quantidade)
+            {
+                return BadRequest("Quantidade inválida");
+            }
+
+            item.Quantidade -= quantidade;
+
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index)); // Corrigido para redirecionar para a página Index de Itens após a remoção
+        }
     }
 }

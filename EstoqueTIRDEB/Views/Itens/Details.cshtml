@@ -1,0 +1,61 @@
+﻿@model EstoqueTIRDEB.Models.Itens
+@{
+    ViewData["Title"] = "Detalhes do Item";
+    Layout = "_Layout";
+}
+
+<h2>Remover Item</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Detalhes do Item</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Nome: @Html.DisplayFor(model => model.Nome)</li>
+                    <li class="list-group-item">Modelo: @Html.DisplayFor(model => model.Modelo)</li>
+                    <li class="list-group-item">Especificações: @Html.DisplayFor(model => model.Especificações)</li>
+                    <li class="list-group-item">Data de Aquisição: @Html.DisplayFor(model => model.DataAquisicao)</li>
+                    <li class="list-group-item">Quantidade: @Html.DisplayFor(model => model.Quantidade)</li>
+                    <li class="list-group-item">Categoria: @Html.DisplayFor(model => model.Categoria)</li>
+                </ul>
+            </div>
+        </div>
+        <form asp-controller="Itens" asp-action="RemoverQuantidade" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="form-group mt-3">
+                <label for="quantidade">Quantidade a Remover:</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade" value="1" min="1">
+            </div>
+            <button type="submit" class="btn btn-danger">Remover</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Adiciona um evento de clique ao botão de remoção
+            $("#btn-remover").on("click", function () {
+                // Obtém o ID do item e a quantidade a ser removida
+                var itemId = "@Model.Id";
+                var quantidade = $("#quantidade").val();
+
+                // Solicita ao servidor para remover o item com a quantidade especificada
+                $.ajax({
+                    url: "/Itens/RemoverItem",
+                    method: "POST",
+                    data: { itemId: itemId, quantidade: quantidade },
+                    success: function () {
+                        // Redireciona para a página de detalhes do item após a remoção bem-sucedida
+                        window.location.href = "/Itens/Details/" + itemId;
+                    },
+                    error: function (xhr, status, error) {
+                        // Lida com erros de remoção, se necessário
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

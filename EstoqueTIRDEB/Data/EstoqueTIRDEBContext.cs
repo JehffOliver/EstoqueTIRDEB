@@ -17,6 +17,7 @@ namespace EstoqueTIRDEB.Data
         public DbSet<EntradaEstoque> EntradaEstoque { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<EstoqueTIRDEB.Models.RetiradaEstoque> RetiradaEstoque { get; set; }
 
     }
 }

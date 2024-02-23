@@ -69,5 +69,56 @@ namespace EstoqueTIRDEB.Services
         {
             return _context.Itens.Include(i => i.Categoria).ToList();
         }
+
+        public void RemoverItemPorId(int itemId, int quantidade)
+        {
+            var item = _context.Itens.Find(itemId);
+
+            if (item != null)
+            {
+                // Verifica se a quantidade a ser removida é menor ou igual à quantidade disponível
+                if (quantidade <= item.Quantidade)
+                {
+                    item.Quantidade -= quantidade;
+
+                    // Atualiza o item no banco de dados
+                    _context.Itens.Update(item);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    // Caso a quantidade especificada seja maior do que a disponível, lançar uma exceção ou lidar de acordo com a lógica do seu sistema
+                    throw new InvalidOperationException("Quantidade especificada maior do que a quantidade disponível.");
+                }
+            }
+            else
+            {
+                // Caso o item não seja encontrado, lançar uma exceção ou lidar de acordo com a lógica do seu sistema
+                throw new KeyNotFoundException("Item não encontrado.");
+            }
+        }
+
+        public void RemoverItem(int itemId)
+        {
+            // Encontre o item pelo ID
+            var item = _context.Itens.Find(itemId);
+
+            if (item == null)
+            {
+                throw new ArgumentException("Item não encontrado.");
+            }
+
+            try
+            {
+                // Remova o item do banco de dados
+                _context.Itens.Remove(item);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Lide com exceções, se necessário
+                throw new Exception("Erro ao remover o item do estoque.", ex);
+            }
+        }
     }
 }
