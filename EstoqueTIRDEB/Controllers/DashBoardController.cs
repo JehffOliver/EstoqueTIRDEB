@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EstoqueTIRDEB.Data;
+using EstoqueTIRDEB.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,10 +11,25 @@ namespace EstoqueTIRDEB.Controllers
 {
     public class DashBoardController : Controller
     {
+        private readonly ItensService _itensService;
+        private readonly EstoqueService _estoqueservice;
+        private readonly CategoriaService _categoriaService;
+        private readonly EstoqueTIRDEBContext _context;
+
+        // Construtor que aceita as dependências necessárias
+        public DashBoardController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context)
+        {
+            _itensService = itensService;
+            _estoqueservice = estoqueService;
+            _categoriaService = categoriaService;
+            _context = context;
+        }
+
         // GET: DashBoard
         public ActionResult Index()
         {
-            return View();
+            var itens = _itensService.FindAll(); // Ou algum outro método para obter os itens do estoque
+            return View("Index", itens); // Passando a lista de itens para a view Index
         }
 
         // GET: DashBoard/Details/5

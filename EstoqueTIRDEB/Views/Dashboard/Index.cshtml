@@ -1,9 +1,10 @@
 @model IEnumerable<EstoqueTIRDEB.Models.Itens>
 
 @{
-    ViewData["Title"] = "DashBoard";
+    ViewData["Title"] = "Index";
     Layout = "_Layout";
 }
+
 <div class="container">
     <h1>Dashboard de Estoque</h1>
     <canvas id="chartContainer"></canvas>
@@ -13,13 +14,24 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var ctx = document.getElementById('chartContainer').getContext('2d');
+
+        // Obter os dados dos itens do estoque
+        var labels = [];
+        var data = [];
+
+        @foreach (var item in Model)
+        {
+            <text>labels.push('@item.Nome');</text>
+            <text>data.push('@item.Quantidade');</text>
+        }
+
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Produto A', 'Produto B', 'Produto C', 'Produto D', 'Produto E'],
+                labels: labels,
                 datasets: [{
                     label: 'Quantidade em Estoque',
-                    data: [20, 30, 15, 25, 40],
+                    data: data,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
@@ -47,4 +59,3 @@
         });
     });
 </script>
-
