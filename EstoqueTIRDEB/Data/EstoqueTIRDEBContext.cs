@@ -17,7 +17,12 @@ namespace EstoqueTIRDEB.Data
         public DbSet<EntradaEstoque> EntradaEstoque { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
-        public DbSet<EstoqueTIRDEB.Models.RetiradaEstoque> RetiradaEstoque { get; set; }
+        public DbSet<RetiradaEstoque> RetiradasEstoque { get; set; }
+        public DbSet<RetiradaEstoque> RetiradaEstoque { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configurações do modelo
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace EstoqueTIRDEB.ViewModels
     public class RetiradaEstoqueViewModel
     {
         public IEnumerable<RetiradaEstoque> RetiradasEstoque { get; set; }
-        public IEnumerable<Itens> Itens { get; set; }
+        public List<Itens> Itens { get; set; }
+        public List<RetiradaEstoque> RegistrosRetiradaEstoque { get; set; }
     }
 }

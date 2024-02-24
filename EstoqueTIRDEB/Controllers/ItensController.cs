@@ -216,30 +216,19 @@ namespace EstoqueTIRDEB.Controllers
                 return BadRequest("Quantidade inválida");
             }
 
-            try
+            // Criar uma instância de RetiradaEstoque com os valores apropriados
+            var retiradaEstoque = new RetiradaEstoque
             {
-                item.Quantidade -= quantidade;
+                ItemId = item.Id,  // Use o ID do item
+                QuantidadeRetirada = quantidade,
+                DataHoraRetirada = DateTime.Now
+            };
 
-                // Registre a retirada de estoque
-                var retiradaEstoque = new RetiradaEstoque
-                {
-                    ItemId = id,
-                    QuantidadeRetirada = quantidade,
-                    DataHoraRetirada = DateTime.Now
-                    // Você pode adicionar outras informações relevantes aqui, como o usuário que fez a retirada, etc.
-                };
+            // Adicionar o registro de retirada ao contexto e salvar as mudanças
+            _context.RetiradasEstoque.Add(retiradaEstoque);
+            _context.SaveChanges();
 
-                _retiradaEstoqueService.Create(retiradaEstoque); // Você precisa ter um método Create no seu serviço de RetiradaEstoque
-
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index)); // Redireciona para a página Index de Itens após a remoção
-            }
-            catch (Exception ex)
-            {
-                // Lide com exceções, se necessário
-                return RedirectToAction("Error", "Home"); // Redireciona para uma página de erro
-            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -142,6 +142,12 @@ namespace EstoqueTIRDEB.Services
             }
         }
 
+        public IEnumerable<Itens> GetAll()
+        {
+            // Lógica para obter todos os itens do serviço
+            return _context.Itens.ToList();
+        }
+
 
     }
 }

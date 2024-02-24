@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EstoqueTIRDEB.Services
 {
     public class RetiradaEstoqueService
     {
-        // Simulando um banco de dados em memória para armazenar os registros de retirada de estoque
-        private static List<RetiradaEstoque> _registrosRetiradaEstoque = new List<RetiradaEstoque>();
+        private readonly EstoqueTIRDEBContext _context;
 
-        // Método para retornar todos os registros de retirada de estoque
-        public IEnumerable<RetiradaEstoque> GetAll()
+        public RetiradaEstoqueService(EstoqueTIRDEBContext context)
         {
-            return _registrosRetiradaEstoque;
+            _context = context;
         }
 
-        // Método para criar um novo registro de retirada de estoque
+        public IEnumerable<RetiradaEstoque> GetAll()
+        {
+            return _context.RetiradaEstoque.ToList();
+        }
+
         public void Create(RetiradaEstoque retiradaEstoque)
         {
-            // Simplesmente adiciona o novo registro à lista simulada
-            _registrosRetiradaEstoque.Add(retiradaEstoque);
+            _context.RetiradaEstoque.Add(retiradaEstoque);
+            _context.SaveChanges();
         }
 
         // Outros métodos conforme necessário (Update, Delete, etc.)
