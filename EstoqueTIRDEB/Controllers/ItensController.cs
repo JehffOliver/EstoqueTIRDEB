@@ -20,14 +20,16 @@ namespace EstoqueTIRDEB.Controllers
         private readonly EstoqueService _estoqueservice;
         private readonly CategoriaService _categoriaService;
         private readonly EstoqueTIRDEBContext _context;
+        private readonly RetiradaEstoqueService _retiradaEstoqueService;
 
         // Construtor que aceita as dependências necessárias
-        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context)
+        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context, RetiradaEstoqueService retiradaEstoqueService)
         {
             _itensService = itensService;
             _estoqueservice = estoqueService;
             _categoriaService = categoriaService;
             _context = context;
+            _retiradaEstoqueService = retiradaEstoqueService;
         }
 
         // GET: ItensController
@@ -214,11 +216,30 @@ namespace EstoqueTIRDEB.Controllers
                 return BadRequest("Quantidade inválida");
             }
 
-            item.Quantidade -= quantidade;
+            try
+            {
+                item.Quantidade -= quantidade;
 
-            _context.SaveChanges();
+                // Registre a retirada de estoque
+                var retiradaEstoque = new RetiradaEstoque
+                {
+                    ItemId = id,
+                    QuantidadeRetirada = quantidade,
+                    DataHoraRetirada = DateTime.Now
+                    // Você pode adicionar outras informações relevantes aqui, como o usuário que fez a retirada, etc.
+                };
 
-            return RedirectToAction(nameof(Index)); // Corrigido para redirecionar para a página Index de Itens após a remoção
+                _retiradaEstoqueService.Create(retiradaEstoque); // Você precisa ter um método Create no seu serviço de RetiradaEstoque
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index)); // Redireciona para a página Index de Itens após a remoção
+            }
+            catch (Exception ex)
+            {
+                // Lide com exceções, se necessário
+                return RedirectToAction("Error", "Home"); // Redireciona para uma página de erro
+            }
         }
     }
 }

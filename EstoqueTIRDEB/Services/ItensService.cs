@@ -11,10 +11,12 @@ namespace EstoqueTIRDEB.Services
     public class ItensService
     {
         private readonly EstoqueTIRDEBContext _context;
+        private readonly RetiradaEstoqueService _retiradaEstoqueService;
 
-        public ItensService(EstoqueTIRDEBContext context)
+        public ItensService(EstoqueTIRDEBContext context, RetiradaEstoqueService retiradaEstoqueService)
         {
             _context = context;
+            _retiradaEstoqueService = retiradaEstoqueService;
         }
 
         public List<Itens> FindAll()
@@ -81,8 +83,17 @@ namespace EstoqueTIRDEB.Services
                 {
                     item.Quantidade -= quantidade;
 
-                    // Atualiza o item no banco de dados
+                    // Cria um registro de retirada de estoque
+                    var retiradaEstoque = new RetiradaEstoque
+                    {
+                        DataHoraRetirada = DateTime.Now,
+                        ItemId = itemId,
+                        QuantidadeRetirada = quantidade
+                        
+                    };
+
                     _context.Itens.Update(item);
+                    _context.RetiradaEstoque.Add(retiradaEstoque); // Adiciona o registro de retirada de estoque ao contexto
                     _context.SaveChanges();
                 }
                 else
@@ -98,9 +109,8 @@ namespace EstoqueTIRDEB.Services
             }
         }
 
-        public void RemoverItem(int itemId)
+        public void RemoverItem(int itemId, int quantidade)
         {
-            // Encontre o item pelo ID
             var item = _context.Itens.Find(itemId);
 
             if (item == null)
@@ -113,6 +123,17 @@ namespace EstoqueTIRDEB.Services
                 // Remova o item do banco de dados
                 _context.Itens.Remove(item);
                 _context.SaveChanges();
+
+                // Registre a retirada de estoque
+                var retiradaEstoque = new RetiradaEstoque
+                {
+                    ItemId = itemId,
+                    QuantidadeRetirada = quantidade,
+                    DataHoraRetirada = DateTime.Now
+                    // Você pode adicionar outras informações relevantes aqui, como o usuário que fez a retirada, etc.
+                };
+
+                _retiradaEstoqueService.Create(retiradaEstoque); // Você precisa ter um método Create no seu serviço de RetiradaEstoque
             }
             catch (Exception ex)
             {
@@ -120,5 +141,7 @@ namespace EstoqueTIRDEB.Services
                 throw new Exception("Erro ao remover o item do estoque.", ex);
             }
         }
+
+
     }
 }

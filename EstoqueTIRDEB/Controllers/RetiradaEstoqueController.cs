@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using EstoqueTIRDEB.Models;
 using EstoqueTIRDEB.Services;
+using EstoqueTIRDEB.ViewModels;
 
 namespace EstoqueTIRDEB.Controllers
 {
@@ -10,18 +11,24 @@ namespace EstoqueTIRDEB.Controllers
     {
         private readonly EstoqueService _estoqueService;
         private readonly RetiradaEstoqueService _retiradaEstoqueService;
+        private readonly ItensService _itensService;
 
-        public RetiradaEstoqueController(EstoqueService estoqueService, RetiradaEstoqueService retiradaEstoqueService)
+        public RetiradaEstoqueController(EstoqueService estoqueService, RetiradaEstoqueService retiradaEstoqueService, ItensService itensService)
         {
+            _itensService = itensService;
             _estoqueService = estoqueService;
             _retiradaEstoqueService = retiradaEstoqueService;
         }
 
-        // GET: RetiradaEstoque
         public IActionResult Index()
         {
-            var registrosRetiradaEstoque = _retiradaEstoqueService.GetAll();
-            return View(registrosRetiradaEstoque);
+            var viewModel = new RetiradaEstoqueViewModel
+            {
+                RetiradasEstoque = _retiradaEstoqueService.GetAll(),
+                Itens = _itensService.FindAll()
+            };
+
+            return View(viewModel);
         }
 
         // GET: RetiradaEstoque/Create

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EstoqueTIRDEB.Models.RetiradaEstoque>
+﻿@model EstoqueTIRDEB.ViewModels.RetiradaEstoqueViewModel
 
 @{
     ViewData["Title"] = "Registros de Retirada de Estoque";
@@ -7,7 +7,7 @@
 
 <h2>Registros de Retirada de Estoque</h2>
 
-@if (!Model.Any())
+@if (!Model.RetiradasEstoque.Any())
 {
     <p>Nenhum registro de retirada de estoque encontrado.</p>
 }
@@ -17,19 +17,40 @@ else
         <thead>
             <tr>
                 <th>Data e Hora</th>
-                <th>Item</th>
                 <th>Quantidade</th>
+                <th>Nome do Item</th>
+                <th>Modelo do Item</th>
+                <th>Especificações do Item</th>
+                <th>Data de Aquisição do Item</th>
+                <th>Categoria do Item</th>
                 <!-- Adicione outras colunas conforme necessário -->
             </tr>
         </thead>
         <tbody>
-            @foreach (var retirada in Model)
+            @foreach (var retirada in Model.RetiradasEstoque)
             {
                 <tr>
                     <td>@retirada.DataHoraRetirada</td>
-                    <td>@retirada.ItemId</td>
-                    <td>@retirada.QuantidadeRetirada.</td>
-                    <!-- Adicione outras colunas conforme necessário -->
+                    <td>@retirada.QuantidadeRetirada</td>
+                    @if (Model.Itens.Any(i => i.Id == retirada.ItemId))
+                    {
+                        var item = Model.Itens.First(i => i.Id == retirada.ItemId);
+                        <td>@item.Nome</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.Especificações</td>
+                        <td>@item.DataAquisicao</td>
+                        <td>@item.Categoria</td>
+                        <!-- Adicione outras colunas conforme necessário -->
+                    }
+                    else
+                    {
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <!-- Adicione outras colunas conforme necessário -->
+                    }
                 </tr>
             }
         </tbody>

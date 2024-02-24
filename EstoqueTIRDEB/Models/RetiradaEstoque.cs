@@ -12,6 +12,10 @@ namespace EstoqueTIRDEB.Models
         public int QuantidadeRetirada { get; set; } // Quantidade do item retirado
         public DateTime DataHoraRetirada { get; set; } // Data e hora da retirada
 
+        public RetiradaEstoque()
+        {
+        }
+
         public RetiradaEstoque(int id, int itemId, int quantidadeRetirada, DateTime dataHoraRetirada)
         {
             Id = id;
