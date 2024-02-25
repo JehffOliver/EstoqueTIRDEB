@@ -148,6 +148,9 @@ namespace EstoqueTIRDEB.Services
             return _context.Itens.ToList();
         }
 
-
+        public Itens GetById(int id)
+        {
+            return _context.Itens.FirstOrDefault(i => i.Id == id);
+        }
     }
 }

@@ -26,6 +26,11 @@ namespace EstoqueTIRDEB.Services
             _context.SaveChanges();
         }
 
+        public Itens GetById(int id)
+        {
+            return _context.Itens.FirstOrDefault(i => i.Id == id);
+        }
+
         // Outros métodos conforme necessário (Update, Delete, etc.)
     }
 }
