@@ -22,11 +22,10 @@ namespace EstoqueTIRDEB.Controllers
 
         public IActionResult Index()
         {
-            var registrosRetiradaEstoque = _retiradaEstoqueService.GetAll();
             var viewModel = new RetiradaEstoqueViewModel
             {
-                RetiradasEstoque = registrosRetiradaEstoque.ToList(),
-                Itens = _itensService.GetAll().ToList() // Convertendo para List<Itens>
+                RetiradasEstoque = _retiradaEstoqueService.GetAll(),
+                Itens = _itensService.FindAll()
             };
 
             return View(viewModel);
@@ -35,6 +34,7 @@ namespace EstoqueTIRDEB.Controllers
         // GET: RetiradaEstoque/Create
         public IActionResult Create()
         {
+            ViewBag.Items = _estoqueService.GetAll(); // Carrega todos os itens do estoque para a view
             return View();
         }
 
@@ -46,25 +46,14 @@ namespace EstoqueTIRDEB.Controllers
             if (ModelState.IsValid)
             {
                 retiradaEstoque.DataHoraRetirada = DateTime.Now; // Define a data e hora da retirada como o momento atual
+                _retiradaEstoqueService.Create(retiradaEstoque);
 
-                // Verifica se a quantidade a ser retirada é válida
+                // Atualizar a quantidade disponível do item no estoque
                 var item = _itensService.GetById(retiradaEstoque.ItemId);
-                if (item != null && item.Quantidade >= retiradaEstoque.QuantidadeRetirada)
-                {
-                    // Atualiza a quantidade do item no estoque
-                    item.Quantidade -= retiradaEstoque.QuantidadeRetirada;
-                    _itensService.Update(item);
+                item.Quantidade -= retiradaEstoque.QuantidadeRetirada;
+                _itensService.Update(item);
 
-                    // Cria o registro de retirada de estoque
-                    _retiradaEstoqueService.Create(retiradaEstoque);
-
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    // Retorna uma mensagem de erro se a quantidade for inválida
-                    ModelState.AddModelError(string.Empty, "Quantidade insuficiente no estoque para realizar a retirada.");
-                }
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Items = _estoqueService.GetAll(); // Carrega novamente os itens do estoque para a view

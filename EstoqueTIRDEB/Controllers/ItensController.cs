@@ -199,11 +199,27 @@ namespace EstoqueTIRDEB.Controllers
             return View(item);
         }
 
-        [HttpPost]
+        // GET: Itens/RetirarQuantidade/5
+        public async Task<IActionResult> RetirarQuantidade(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _context.Itens.FirstOrDefaultAsync(m => m.Id == id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
+        // POST: Itens/RetirarQuantidade/5
+        [HttpPost, ActionName("RetirarQuantidade")]
         [ValidateAntiForgeryToken]
-        [ActionName("RemoverQuantidade")]
-        [Route("Itens/RemoverQuantidade/{id}")]
-        public async Task<IActionResult> RemoverQuantidade(int id, int quantidade)
+        public async Task<IActionResult> RetirarQuantidadeConfirmed(int id, int quantidadeRetirada)
         {
             var item = await _context.Itens.FindAsync(id);
             if (item == null)
@@ -211,22 +227,17 @@ namespace EstoqueTIRDEB.Controllers
                 return NotFound();
             }
 
-            if (quantidade <= 0 || quantidade > item.Quantidade)
+            if (quantidadeRetirada <= item.Quantidade)
             {
-                return BadRequest("Quantidade inválida");
+                item.Quantidade -= quantidadeRetirada;
+                await _context.SaveChangesAsync();
             }
-
-            // Criar uma instância de RetiradaEstoque com os valores apropriados
-            var retiradaEstoque = new RetiradaEstoque
+            else
             {
-                ItemId = item.Id,  // Use o ID do item
-                QuantidadeRetirada = quantidade,
-                DataHoraRetirada = DateTime.Now
-            };
-
-            // Adicionar o registro de retirada ao contexto e salvar as mudanças
-            _context.RetiradasEstoque.Add(retiradaEstoque);
-            _context.SaveChanges();
+                // Retornar uma mensagem de erro informando que a quantidade a ser retirada é maior do que a quantidade disponível
+                ModelState.AddModelError(string.Empty, "A quantidade a ser retirada é maior do que a quantidade disponível.");
+                return View(item);
+            }
 
             return RedirectToAction(nameof(Index));
         }

@@ -40,7 +40,7 @@
                 <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Remover</a>
+                        <a class="btn btn-primary" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
                         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </div>

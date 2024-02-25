@@ -42,10 +42,10 @@ namespace EstoqueTIRDEB.Services
             _context.SaveChanges();
         }
 
-        public void Update(Itens obj)
+        public void Update(Itens item)
         {
-            _context.Entry(obj).State = EntityState.Modified; // Informar que o objeto foi modificado
-            _context.SaveChanges(); // Salvar as alterações
+            _context.Itens.Update(item);
+            _context.SaveChanges();
         }
 
         public List<Itens> ListarPorCategoria(int categoriaId)
@@ -152,5 +152,6 @@ namespace EstoqueTIRDEB.Services
         {
             return _context.Itens.FirstOrDefault(i => i.Id == id);
         }
+
     }
 }
