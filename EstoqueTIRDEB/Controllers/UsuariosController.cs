@@ -53,22 +53,23 @@ namespace EstoqueTIRDEB.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
+                    // Buscar o usuário no banco de dados pelo nome de usuário
                     Usuario u = _usuarioRepositorio.BuscarPorLogin(usuario.NomeUsuario);
 
                     if (u != null)
                     {
-                        if (usuario.SenhaValida(usuario.Senha))
+                        // Comparar a senha fornecida com a senha armazenada no banco de dados
+                        if (u.SenhaValida(usuario.Senha))
                         {
                             _sessao.CriarSessaoDoUsuario(usuario);
                             return RedirectToAction("Index", "Home");
                         }
                         TempData["MensagemErro"] = $"Senha inválida. Por favor tente novamente";
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Usuarios");
                     }
 
-                    TempData["MensagemErro"] = $"Usuário e/ou senha inválid(s). Por favor tente novamente";
+                    TempData["MensagemErro"] = $"Usuário e/ou senha inválidos. Por favor tente novamente";
 
                 }
 
@@ -78,7 +79,7 @@ namespace EstoqueTIRDEB.Controllers
             catch (Exception erro)
             {
                 // Lidar com exceções, se necessário
-                TempData["MensagemErro"] = $"Ñão foi possível realizar o login, tente novamente, detalhe do erro {erro.Message}";
+                TempData["MensagemErro"] = $"Não foi possível realizar o login, tente novamente. Detalhe do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }

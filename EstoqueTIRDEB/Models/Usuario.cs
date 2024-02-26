@@ -32,6 +32,7 @@ namespace EstoqueTIRDEB.Models
 
         public bool SenhaValida(string senha)
         {
+            // Comparar a senha fornecida com a senha armazenada no banco de dados
             return Senha == senha;
         }
     }
