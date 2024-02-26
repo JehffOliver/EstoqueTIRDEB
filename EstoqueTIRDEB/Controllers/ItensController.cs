@@ -217,9 +217,9 @@ namespace EstoqueTIRDEB.Controllers
         }
 
         // POST: Itens/RetirarQuantidade/5
-        [HttpPost, ActionName("RetirarQuantidade")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RetirarQuantidadeConfirmed(int id, int quantidadeRetirada)
+        public async Task<IActionResult> RetirarQuantidade(int id, int quantidadeRetirada)
         {
             var item = await _context.Itens.FindAsync(id);
             if (item == null)
@@ -231,6 +231,18 @@ namespace EstoqueTIRDEB.Controllers
             {
                 item.Quantidade -= quantidadeRetirada;
                 await _context.SaveChangesAsync();
+
+                // Criar um registro de retirada de estoque
+                var retiradaEstoque = new RetiradaEstoque
+                {
+                    ItemId = item.Id,
+                    QuantidadeRetirada = quantidadeRetirada,
+                    DataHoraRetirada = DateTime.Now
+                };
+                _context.RetiradaEstoque.Add(retiradaEstoque);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
             else
             {
@@ -238,8 +250,6 @@ namespace EstoqueTIRDEB.Controllers
                 ModelState.AddModelError(string.Empty, "A quantidade a ser retirada é maior do que a quantidade disponível.");
                 return View(item);
             }
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }
