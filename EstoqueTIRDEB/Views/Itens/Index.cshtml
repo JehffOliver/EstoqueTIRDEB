@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<EstoqueTIRDEB.Models.Itens>
 @inject EstoqueTIRDEB.Services.EstoqueService _estoqueService
 
-
-
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
@@ -15,14 +13,18 @@
         <a asp-action="Create" class="btn btn-default">Adicionar Item</a>
     </p>
 
-
     <table class="table">
         <thead>
             <tr>
-                <th>Nome</th>
+                <th>CD</th>
+                <th>Fabricante</th>
+                <th>Equipamento</th>
                 <th>Modelo</th>
-                <th>Especificações</th>
-                <th>Data de Aquisição</th>
+                <th>N/S</th>
+                <th>Patrimônio</th>
+                <th>Sistema Operacional</th>
+                <th>Departamento (Setor)</th>
+                <th>Hostname</th>
                 <th>Quantidade</th>
                 <th>Categoria</th>
                 <th>Opções</th>
@@ -31,21 +33,26 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>@item.Nome</td>
-                <td>@item.Modelo</td>
-                <td>@item.Especificações</td>
-                <td>@item.DataAquisicao</td>
-                <td>@item.Quantidade</td>
-                <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
-                <td>
-                    <div class="btn-group">
-                        <a class="btn btn-primary" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </div>
-                </td>
-            </tr>
+                <tr>
+                    <td>@item.CD</td>
+                    <td>@item.Fabricante</td>
+                    <td>@item.Equipamento</td>
+                    <td>@item.Modelo</td>
+                    <td>@item.NotaFiscal</td>
+                    <td>@item.Patrimonio</td>
+                    <td>@item.SistemaOperacional</td>
+                    <td>@item.DepartamentoSetor</td>
+                    <td>@item.Hostname</td>
+                    <td>@item.Quantidade</td>
+                    <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

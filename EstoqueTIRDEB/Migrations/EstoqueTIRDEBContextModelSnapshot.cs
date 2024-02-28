@@ -52,11 +52,21 @@ namespace EstoqueTIRDEB.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CD");
+
                     b.Property<int>("CategoriaId");
 
                     b.Property<DateTime>("DataAquisicao");
 
+                    b.Property<string>("DepartamentoSetor");
+
+                    b.Property<string>("Equipamento");
+
                     b.Property<string>("Especificações");
+
+                    b.Property<string>("Fabricante");
+
+                    b.Property<string>("Hostname");
 
                     b.Property<string>("Modelo")
                         .IsRequired();
@@ -64,7 +74,15 @@ namespace EstoqueTIRDEB.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
+                    b.Property<string>("NotaFiscal");
+
+                    b.Property<string>("NumeroSerie");
+
+                    b.Property<string>("Patrimonio");
+
                     b.Property<int>("Quantidade");
+
+                    b.Property<string>("SistemaOperacional");
 
                     b.HasKey("Id");
 
