@@ -6,8 +6,53 @@
     Layout = "_Layout";
 }
 
+<style>
+    /* Estilo para o corpo da página */
+    body {
+        background-color: #f8f9fa; /* Cor de fundo da página */
+    }
+
+    /* Estilo para o título */
+    h2 {
+        color: #343a40; /* Cor do título */
+    }
+
+    /* Estilo para a tabela */
+    .table {
+        width: 100%; /* Definindo a largura da tabela para ocupar 100% da largura da tela */
+        padding-left: 10%;
+        background-color: #fff; /* Cor de fundo da tabela */
+        margin-bottom: 50%; /* Margem inferior da tabela */
+    }
+
+        /* Estilo para o cabeçalho da tabela */
+        .table thead th {
+            background-color: #343a40; /* Cor de fundo do cabeçalho da tabela */
+            color: #fff; /* Cor do texto do cabeçalho da tabela */
+        }
+
+        /* Estilo para as células da tabela */
+        .table tbody td {
+            color: #495057; /* Cor do texto das células da tabela */
+        }
+
+    /* Estilo para os botões de ação */
+    .btn {
+        margin-right: 5px; /* Margem direita dos botões */
+    }
+
+    /* Estilo para o rodapé */
+    footer {
+        text-align: center; /* Alinhamento do texto */
+        padding: 20px 0; /* Preenchimento interno do rodapé */
+        background-color: #f8f9fa; /* Cor de fundo do rodapé */
+        margin-top: 20px; /* Margem superior do rodapé */
+        color: #495057; /* Cor do texto do rodapé */
+    }
+</style>
+
 <body>
-    <h2>Itens</h2>
+    <h2 class="title">Itens</h2>
 
     <p>
         <a asp-action="Create" class="btn btn-default">Adicionar Item</a>
@@ -16,44 +61,39 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Nome</th>
                 <th>CD</th>
-                <th>Fabricante</th>
                 <th>Equipamento</th>
                 <th>Modelo</th>
-                <th>N/S</th>
-                <th>Patrimônio</th>
-                <th>Sistema Operacional</th>
-                <th>Departamento (Setor)</th>
-                <th>Hostname</th>
                 <th>Quantidade</th>
                 <th>Categoria</th>
+                <th>Fabricante</th>
                 <th>Opções</th>
+                <th>Patrimonio</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@item.Nome</td>
                     <td>@item.CD</td>
-                    <td>@item.Fabricante</td>
                     <td>@item.Equipamento</td>
                     <td>@item.Modelo</td>
-                    <td>@item.NotaFiscal</td>
-                    <td>@item.Patrimonio</td>
-                    <td>@item.SistemaOperacional</td>
-                    <td>@item.DepartamentoSetor</td>
-                    <td>@item.Hostname</td>
                     <td>@item.Quantidade</td>
                     <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
+                    <td>@item.Fabricante</td>
+                    <td>@item.Patrimonio</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-primary" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-primary action-btn" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
+                            <a class="btn btn-primary action-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger action-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 </body>
