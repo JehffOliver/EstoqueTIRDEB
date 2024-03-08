@@ -12,25 +12,75 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Modelo" class="control-label"></label>
+                <label asp-for="CD" class="control-label">CD</label>
+                <input asp-for="CD" class="form-control" />
+                <span asp-validation-for="CD" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fabricante" class="control-label">Fabricante</label>
+                <input asp-for="Fabricante" class="form-control" />
+                <span asp-validation-for="Fabricante" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Equipamento" class="control-label">Equipamento</label>
+                <input asp-for="Equipamento" class="form-control" />
+                <span asp-validation-for="Equipamento" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Modelo" class="control-label">Modelo</label>
                 <input asp-for="Modelo" class="form-control" />
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="DataAquisicao" class="control-label"></label>
+                <label asp-for="NotaFiscal" class="control-label">N/S</label>
+                <input asp-for="NotaFiscal" class="form-control" />
+                <span asp-validation-for="NotaFiscal" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Patrimonio" class="control-label">Patrimônio</label>
+                <input asp-for="Patrimonio" class="form-control" />
+                <span asp-validation-for="Patrimonio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SistemaOperacional" class="control-label">Sistema Operacional</label>
+                <input asp-for="SistemaOperacional" class="form-control" />
+                <span asp-validation-for="SistemaOperacional" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DepartamentoSetor" class="control-label">Departamento (Setor)</label>
+                <input asp-for="DepartamentoSetor" class="form-control" />
+                <span asp-validation-for="DepartamentoSetor" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Hostname" class="control-label">Hostname</label>
+                <input asp-for="Hostname" class="form-control" />
+                <span asp-validation-for="Hostname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataAquisicao" class="control-label">Data de Aquisição</label>
                 <input asp-for="DataAquisicao" class="form-control" />
                 <span asp-validation-for="DataAquisicao" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="CategoriaId" class="control-label"></label>
+                <label asp-for="CategoriaId" class="control-label">Categoria</label>
                 <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.Categorias"></select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
-                <label asp-for="Quantidade" class="control-label"></label>
+                <label asp-for="Quantidade" class="control-label">Quantidade</label>
                 <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>

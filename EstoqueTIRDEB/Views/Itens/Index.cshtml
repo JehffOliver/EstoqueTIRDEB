@@ -61,36 +61,37 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Equipamento</th>
                 <th>CD</th>
                 <th>Equipamento</th>
                 <th>Modelo</th>
                 <th>Quantidade</th>
                 <th>Categoria</th>
                 <th>Fabricante</th>
-                <th>Opções</th>
                 <th>Patrimonio</th>
+                <th>Tempo Aproximado</th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.CD</td>
-                    <td>@item.Equipamento</td>
-                    <td>@item.Modelo</td>
-                    <td>@item.Quantidade</td>
-                    <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
-                    <td>@item.Fabricante</td>
-                    <td>@item.Patrimonio</td>
-                    <td>
-                        <div class="btn-group">
-                            <a class="btn btn-primary action-btn" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
-                            <a class="btn btn-primary action-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-danger action-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </div>
-                    </td>
-                </tr>
+            <tr>
+                <td>@item.CD</td>
+                <td>@item.Equipamento</td>
+                <td>@item.Modelo</td>
+                <td>@item.Quantidade</td>
+                <td>@(item.Categoria != null ? item.Categoria.Nome : "")</td>
+                <td>@item.Fabricante</td>
+                <td>@item.Patrimonio</td>
+                <td>@item.DataAquisicao</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary action-btn" asp-action="RetirarQuantidade" asp-route-id="@item.Id">Remover</a>
+                        <a class="btn btn-primary action-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger action-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
