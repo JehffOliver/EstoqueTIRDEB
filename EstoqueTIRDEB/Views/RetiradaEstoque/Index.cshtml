@@ -35,9 +35,8 @@ else
                     @if (Model.Itens.Any(i => i.Id == retirada.ItemId))
                     {
                         var item = Model.Itens.First(i => i.Id == retirada.ItemId);
-                        <td>@item.Nome</td>
+                        <td>@item.Equipamento</td>
                         <td>@item.Modelo</td>
-                        <td>@item.Especificações</td>
                         <td>@item.DataAquisicao</td>
                         <td>@item.Categoria</td>
                         <!-- Adicione outras colunas conforme necessário -->

@@ -10,9 +10,6 @@ namespace EstoqueTIRDEB.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O campo Nome é obrigatório.")]
-        public string Nome { get; set; }
-
         [Required(ErrorMessage = "O campo Modelo é obrigatório.")]
         public string Modelo { get; set; }
 
@@ -30,9 +27,6 @@ namespace EstoqueTIRDEB.Models
 
         [Display(Name = "Número de Série")]
         public string NumeroSerie { get; set; }
-
-        [Display(Name = "Número de Especificações")]
-        public string Especificações { get; set; }
 
         [Display(Name = "Patrimônio")]
         public string Patrimonio { get; set; }
@@ -61,11 +55,10 @@ namespace EstoqueTIRDEB.Models
         {
         }
 
-        public Itens(int id, string nome, string modelo, string fabricante, string equipamento, string numeroSerie, string especificações, string patrimonio, string sistemaOperacional, string departamentoSetor, string hostname, DateTime dataAquisicao, int quantidade, int categoriaId, Categoria categoria) : this(id, nome, modelo, fabricante)
+        public Itens(int id, string nome, string modelo, string fabricante, string equipamento, string numeroSerie, string especificações, string patrimonio, string sistemaOperacional, string departamentoSetor, string hostname, DateTime dataAquisicao, int quantidade, int categoriaId, Categoria categoria) : this(id, modelo)
         {
             Equipamento = equipamento;
             NumeroSerie = numeroSerie;
-            Especificações = especificações;
             Patrimonio = patrimonio;
             SistemaOperacional = sistemaOperacional;
             DepartamentoSetor = departamentoSetor;
@@ -76,12 +69,10 @@ namespace EstoqueTIRDEB.Models
             Categoria = categoria;
         }
 
-        public Itens(int id, string nome, string modelo, string especificações)
+        public Itens(int id, string modelo)
         {
             Id = id;
-            Nome = nome;
             Modelo = modelo;
-            Especificações = especificações;
         }
 
     }
