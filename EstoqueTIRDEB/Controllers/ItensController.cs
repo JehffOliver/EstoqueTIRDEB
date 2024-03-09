@@ -1,4 +1,6 @@
-﻿using EstoqueTIRDEB.Data;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using EstoqueTIRDEB.Data;
 using EstoqueTIRDEB.Models;
 using EstoqueTIRDEB.Models.ViewModels;
 using EstoqueTIRDEB.Services;
@@ -8,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,15 +25,17 @@ namespace EstoqueTIRDEB.Controllers
         private readonly CategoriaService _categoriaService;
         private readonly EstoqueTIRDEBContext _context;
         private readonly RetiradaEstoqueService _retiradaEstoqueService;
+        private readonly ExcelService _excelService;
 
         // Construtor que aceita as dependências necessárias
-        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context, RetiradaEstoqueService retiradaEstoqueService)
+        public ItensController(ItensService itensService, EstoqueService estoqueService, CategoriaService categoriaService, EstoqueTIRDEBContext context, RetiradaEstoqueService retiradaEstoqueService, ExcelService excelService)
         {
             _itensService = itensService;
             _estoqueservice = estoqueService;
             _categoriaService = categoriaService;
             _context = context;
             _retiradaEstoqueService = retiradaEstoqueService;
+            _excelService = excelService;
         }
 
         // GET: ItensController
@@ -250,6 +256,51 @@ namespace EstoqueTIRDEB.Controllers
                 ModelState.AddModelError(string.Empty, "A quantidade a ser retirada é maior do que a quantidade disponível.");
                 return View(item);
             }
+        }
+
+        [HttpGet]
+        public IActionResult UploadExcel()
+        {
+            return View("UploadExcel");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadExcel(IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+            {
+                return Content("Arquivo não selecionado");
+            }
+
+            using (var reader = new StreamReader(excelFile.OpenReadStream()))
+            {
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    Delimiter = ",",
+                    HasHeaderRecord = true // Se a primeira linha contém o cabeçalho
+                };
+
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<Itens>();
+
+                    foreach (var item in records)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            _itensService.Insert(item);
+                        }
+                        else
+                        {
+                            var categorias = _categoriaService.GetAll();
+                            ViewBag.Categorias = new SelectList(categorias, "Id", "Nome", item.CategoriaId);
+                            return View("Create", item);
+                        }
+                    }
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

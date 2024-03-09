@@ -9,6 +9,7 @@ using EstoqueTIRDEB.Ropositorio;
 using EstoqueTIRDEB.Helper;
 using Microsoft.AspNetCore.Mvc;
 using EstoqueTIRDEB.Services;
+using OfficeOpenXml;
 
 namespace EstoqueTIRDEB
 {
@@ -31,12 +32,14 @@ namespace EstoqueTIRDEB
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // Configura a propriedade LicenseContext para evitar exceções de licença do EPPlus
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Use esta linha se estiver usando a versão gratuita do EPPlus
+
             services.AddDbContext<EstoqueTIRDEBContext>(options =>
-             options.UseMySql(Configuration.GetConnectionString("EstoqueTIRDEBContext"), builder =>
-                builder.MigrationsAssembly("EstoqueTIRDEB")));
+                options.UseMySql(Configuration.GetConnectionString("EstoqueTIRDEBContext"), builder =>
+                    builder.MigrationsAssembly("EstoqueTIRDEB")));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
@@ -47,8 +50,9 @@ namespace EstoqueTIRDEB
             services.AddScoped<SeedingService>();
             services.AddScoped<CategoriaService>();
             services.AddScoped<RetiradaEstoqueService>();
+            services.AddScoped<ExcelService>();
 
-            services.AddSession(o => 
+            services.AddSession(o =>
             {
                 o.Cookie.HttpOnly = true;
                 o.Cookie.IsEssential = true;
