@@ -20,9 +20,8 @@ else
                 <th>Quantidade</th>
                 <th>Nome do Item</th>
                 <th>Modelo do Item</th>
-                <th>Especificações do Item</th>
                 <th>Data de Aquisição do Item</th>
-                <th>Categoria do Item</th>
+                <th>Setor</th>
                 <!-- Adicione outras colunas conforme necessário -->
             </tr>
         </thead>
@@ -37,8 +36,8 @@ else
                         var item = Model.Itens.First(i => i.Id == retirada.ItemId);
                         <td>@item.Equipamento</td>
                         <td>@item.Modelo</td>
-                        <td>@item.DataAquisicao</td>
-                        <td>@item.Categoria</td>
+                        <td>@item.DataAquisicao.ToString("dd/MM/yyyy")</td>
+                        <td>@item.DepartamentoSetor</td>
                         <!-- Adicione outras colunas conforme necessário -->
                     }
                     else

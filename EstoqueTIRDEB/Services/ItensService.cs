@@ -153,5 +153,17 @@ namespace EstoqueTIRDEB.Services
             return _context.Itens.FirstOrDefault(i => i.Id == id);
         }
 
+        public int CalcularTempoAproximadoDeUso(Itens item)
+        {
+            if (item.Quantidade <= 0)
+            {
+                return 0; // Retorna zero se a quantidade for zero ou negativa
+            }
+
+            // Cálculo do tempo aproximado de uso com base na diferença entre a data de entrada e a data atual
+            TimeSpan tempoDeUso = DateTime.Now - item.DataAquisicao;
+            return (int)tempoDeUso.TotalDays;
+        }
+
     }
 }

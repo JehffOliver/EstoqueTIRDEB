@@ -41,7 +41,18 @@ namespace EstoqueTIRDEB.Models
         public string Hostname { get; set; }
 
         [Required(ErrorMessage = "O campo Data de Aquisição é obrigatório.")]
+        [DataType(DataType.Date)]
         public DateTime DataAquisicao { get; set; }
+
+        // Propriedade calculada para tempo aproximado de uso em dias
+        public int TempoAproximadoDeUso
+        {
+            get
+            {
+                TimeSpan tempoDeUso = DateTime.Today - DataAquisicao.Date;
+                return tempoDeUso.Days;
+            }
+        }
 
         [Range(0, int.MaxValue, ErrorMessage = "A quantidade deve ser um valor positivo.")]
         public int Quantidade { get; set; }
@@ -74,6 +85,8 @@ namespace EstoqueTIRDEB.Models
             Id = id;
             Modelo = modelo;
         }
+
+        
 
     }
 }
